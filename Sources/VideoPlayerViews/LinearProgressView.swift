@@ -22,8 +22,8 @@ public struct LinearProgressView: View {
                         .foregroundColor(Color.accentColor)
                         .frame(width: geometry.width * 0.25)
                         .clipShape(Capsule())
-                        .offset(x: -geometry.width * 0.7, y: 0)
-                        .offset(x: geometry.width * 1.15 * offset, y: 0)
+                        .offset(x: -geometry.width * 0.5, y: 0)
+                        .offset(x: geometry.width * 1 * offset, y: 0)
                         .animation(.default.repeatForever().speed(0.265), value: offset)
                 )
                 .clipShape(Capsule())
@@ -39,5 +39,6 @@ public struct LinearProgressView: View {
 struct Previews_LinearProgressView_Previews: PreviewProvider {
     static var previews: some View {
         LinearProgressView()
+            .previewLayout(.fixed(width: /*@START_MENU_TOKEN@*/300.0/*@END_MENU_TOKEN@*/, height: /*@START_MENU_TOKEN@*/100.0/*@END_MENU_TOKEN@*/))
     }
 }
