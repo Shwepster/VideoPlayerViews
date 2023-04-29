@@ -19,7 +19,7 @@ public struct VideoImagePicker: View {
     
     public var body: some View {
         ImageView(image: image)
-            .aspectRatio(1, contentMode: .fit)
+            .scaledToFill()
             .clipped()
             .listRowInsets(.init())
             .overlay {
@@ -42,6 +42,8 @@ public struct VideoImagePicker: View {
 
 struct Previews_VideoImagePicker_Previews: PreviewProvider {
     static var previews: some View {
-        VideoImagePicker(selection: .constant(nil), image: nil)
+        VideoImagePicker(selection: .constant(nil), image: Image(systemName: "scribble.variable"))
+            .frame(height: 200)
+            .clipped()
     }
 }
