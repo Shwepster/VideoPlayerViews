@@ -9,16 +9,18 @@ import SwiftUI
 import PhotosUI
 
 public struct VideoPicker: View {
+    let maxCount: Int
     @Binding var videoSelection: [PhotosPickerItem]
     
-    public init(videoSelection: Binding<[PhotosPickerItem]>) {
+    public init(videoSelection: Binding<[PhotosPickerItem]>, maxCount: Int = 1) {
         _videoSelection = videoSelection
+        self.maxCount = maxCount
     }
         
     public var body: some View {
         PhotosPicker(
             selection: $videoSelection,
-            maxSelectionCount: 4,
+            maxSelectionCount: maxCount,
             matching: .videos
         ) {
             HStack {
@@ -32,6 +34,6 @@ public struct VideoPicker: View {
 
 struct VideoPicker_Previews: PreviewProvider {
     static var previews: some View {
-        VideoPicker(videoSelection: .constant([]))
+        VideoPicker(videoSelection: .constant([]), maxCount: 8)
     }
 }
