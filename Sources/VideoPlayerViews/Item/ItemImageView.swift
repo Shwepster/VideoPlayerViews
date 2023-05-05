@@ -9,6 +9,7 @@ import SwiftUI
 
 public struct ItemImageView: View {
     let url: URL?
+    @State private var image: Image?
     
     public init(url: URL?) {
         self.url = url
@@ -16,17 +17,21 @@ public struct ItemImageView: View {
     
     public var body: some View {
         GeometryReader { geometry in
-            AsyncImage(url: url) {
-                ($0.image ?? Image("kp"))
-                    .resizable()
-            }
-            .scaledToFill()
-            .frame(
-                width: geometry.width,
-                height: geometry.height
-            )
-            .contentShape(Rectangle())
-            .animation(.default, value: url)
+            (image ?? Image("kp"))
+                .resizable()
+                .scaledToFill()
+                .frame(
+                    width: geometry.width,
+                    height: geometry.height
+                )
+                .background(.red)
+                .contentShape(Rectangle())
+                .animation(.default, value: url)
+                .task {
+                    guard image == nil else { return }
+                    image = await ImageFetcher
+                        .makeImage(from: url, size: geometry.size)
+                }
         }
     }
 }
