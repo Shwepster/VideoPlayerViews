@@ -28,8 +28,15 @@ public struct LinearProgressView: View {
                 )
                 .clipShape(Capsule())
                 .onAppear {
-                    withAnimation {
-                        offset = 1
+                    Task.detached(priority: .userInitiated) {
+                        let delay: Double = [0.1, 0.05, 0, 0.15].randomElement() ?? 0
+                        try await Task.sleep(for: .seconds(delay))
+                        
+                        await MainActor.run {
+                            withAnimation(.default.delay(delay)) {
+                                offset = 1
+                            }
+                        }
                     }
                 }
         }

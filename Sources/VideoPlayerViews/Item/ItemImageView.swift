@@ -29,8 +29,12 @@ public struct ItemImageView: View {
                 .animation(.default, value: url)
                 .task {
                     guard image == nil else { return }
-                    image = await ImageFetcher
-                        .makeImage(from: url, size: geometry.size)
+                    Task.detached(priority: .userInitiated) {
+                        let croppedImage = await ImageFetcher.makeImage(from: url, size: geometry.size)
+                        await MainActor.run {
+                            image = croppedImage
+                        }
+                    }
                 }
         }
     }
