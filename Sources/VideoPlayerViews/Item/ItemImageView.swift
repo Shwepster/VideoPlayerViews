@@ -27,8 +27,7 @@ public struct ItemImageView: View {
                 .background(.red)
                 .contentShape(Rectangle())
                 .animation(.default, value: url)
-                .task {
-                    guard image == nil else { return }
+                .task(id: url) { // need 'id', so view will fetch image when url changes
                     Task.detached(priority: .userInitiated) {
                         let croppedImage = await ImageFetcher.makeImage(from: url, size: geometry.size)
                         await MainActor.run {
